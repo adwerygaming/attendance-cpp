@@ -12,6 +12,7 @@ bool AddEntry(AttendanceEntry entry) {
         return false;
     }
 
+    // auto assign timestamp for each entry
     attendanceList[attendanceEntryLength] = entry;
     attendanceEntryLength++;
 
