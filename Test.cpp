@@ -1,5 +1,5 @@
 #include <iostream>
-#include "./services/AttendanceService.cpp"
+#include "./services/AttendanceService.h"
 using namespace std;
 
 int main() {
