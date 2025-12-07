@@ -4,6 +4,6 @@ using namespace std;
 
 int main() {
     // get entry
-    attendanceList list = GetAllEntry();
+    auto list = GetAllEntry();
     return 0;
 }
