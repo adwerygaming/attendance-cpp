@@ -12,5 +12,11 @@ bool AddEntry(AttendanceEntry entry) {
         return false;
     }
 
+    attendanceList.fill(entry);
+
+    return true;
+}
+
+bool RemoveEntry(int index) {
     attendanceList.
 }
