@@ -8,7 +8,7 @@ using namespace std;
 const int maxEntryLength = 32;
 array<AttendanceEntry, maxEntryLength> attendanceList;
 int attendanceEntryLength = 0;
-2
+
 bool AddEntry(AttendanceEntry entry) {
     if (attendanceEntryLength > attendanceList.size()) {
         return false;
