@@ -24,7 +24,7 @@ bool RemoveEntry(int index) {
     return true;
 }
 
-array<AttendanceEntry, maxEntryLength> GetAllData() {
+array<AttendanceEntry, maxEntryLength> GetAllEntry() {
     if (attendanceEntryLength == 0) {
         return {};
     }
