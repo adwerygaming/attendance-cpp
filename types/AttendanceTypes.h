@@ -7,4 +7,3 @@ struct AttendanceEntry {
     string name;
     time_t timestamp;
 };
-
