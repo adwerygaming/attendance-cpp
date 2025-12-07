@@ -2,6 +2,6 @@
 using namespace std;
 
 int main() {
-    cout << "Hello world" << endl;
+    string text[4] = {"hello", "mi ayam"};
     return 0;
 }
