@@ -1,5 +1,7 @@
 #include <iostream>
 #include <array>
+#include <chrono>
+
 #include "../types/AttendanceTypes.h"
 using namespace std;
 
@@ -13,6 +15,8 @@ bool AddEntry(AttendanceEntry entry) {
     }
 
     // auto assign timestamp for each entry
+    auto now = chrono::system_clock::now();
+    entry.timestamp = now::to_time_t(now);
     attendanceList[attendanceEntryLength] = entry;
     attendanceEntryLength++;
 
