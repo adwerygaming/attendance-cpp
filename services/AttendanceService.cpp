@@ -1,5 +1,6 @@
 #include <iostream>
 #include <array>
+#include "../types/AttendanceTypes.h"
 using namespace std;
 
 const int maxEntryLength = 32;
