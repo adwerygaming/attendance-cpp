@@ -1,17 +1,13 @@
 #include <iostream>
 #include <array>
-#include "AttendanceService.h"
-#include "../types/AttendanceTypes.h"
 using namespace std;
 
 const int maxEntryLength = 32;
-array<AttendanceEntry, maxEntryLength> attendanceList = {
-    
-};
+array<AttendanceEntry, maxEntryLength> attendanceList;
 int attendanceEntryLength = 0;
 
 bool AddEntry(AttendanceEntry entry) {
-    if (attendanceEntryLength > maxEntryLength) {
+    if (attendanceEntryLength > attendanceList.size()) {
         return false;
     }
 
