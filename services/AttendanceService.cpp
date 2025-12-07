@@ -15,8 +15,10 @@ bool AddEntry(AttendanceEntry entry) {
     }
 
     // auto assign timestamp for each entry
-    auto now = chrono::system_clock::now();
-    entry.timestamp = now::to_time_t(now);
+    auto now = std::chrono::system_clock::now();
+    std::time_t ts = std::chrono::system_clock::to_time_t(now);
+    entry.timestamp = ts;
+
     attendanceList[attendanceEntryLength] = entry;
     attendanceEntryLength++;
 

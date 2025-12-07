@@ -10,6 +10,6 @@ int main() {
     for (int i = 0; i < list.size(); i++) {
         cout << "NIM: " << list[i].nim << ", Name: " << list[i].name << ", Timestamp: " << ctime(&list[i].timestamp);
     }
-    
+
     return 0;
 }
