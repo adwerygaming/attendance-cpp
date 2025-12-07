@@ -8,4 +8,5 @@ include_directories(types)
 add_executable(attendance_cpp
         services/AttendanceService.cpp
         types/AttendanceTypes.h
-        Test.cpp)
+        Test.cpp
+        services/AttendanceService.h)
