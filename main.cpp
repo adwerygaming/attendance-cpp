@@ -71,18 +71,15 @@ void AddAttendance() {
     for (int i = 0; i < validMahasiswa.size(); ++i) {
         AttendanceCreate item = validMahasiswa[i];
         if (nim == item.nim) {
-
             // avoid duplicate entry
-            bool alreadyExists = any_of(attendanceList.begin(), attendanceList.end(),
-                [&](const AttendanceEntry& e) {
-                    return e.nim == nim;
-                }
-            );
+            for (int j = 0; j < attendanceCount; j++) {
+                AttendanceEntry entry = attendanceList[j];
 
-            if (alreadyExists) {
-                cout << item.name << " has already attended." << endl;
-                found = true;
-                break;
+                if (entry.nim == nim) {
+                    cout << entry.name << " has already attended." << endl;
+                    found = true;
+                    break;
+                }
             }
 
             cout << "Added " << item.name << " to attendance list." << endl;
