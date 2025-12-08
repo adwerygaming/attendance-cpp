@@ -1,4 +1,5 @@
 #include <iostream>
+#include <array>
 
 #include "AttendanceTypes.h"
 using namespace std;
@@ -14,6 +15,9 @@ bool AddEntry(AttendanceEntry entry) {
     if (attendanceCount > attendanceMaxSize) {
         return false;
     }
+
+    // inject timestamp to current time
+    entry.timestamp = time(0);
 
     attendanceList[attendanceCount++] = entry;
     return true;
