@@ -24,7 +24,7 @@ bool AddEntry(AttendanceCreate entry) {
         return false;
     }
 
-    attendanceList[attendanceCount++] = {
+    attendanceList[attendanceCount] = {
         entry.name,
         entry.nim,
         time(nullptr) // returns the current Unix time in seconds since 1970.
@@ -79,26 +79,29 @@ void AddAttendance() {
     if (found == false) {
         cout << "Could find mahasiswa on database." << endl;
     }
-
-    // back to main menu
-    main();
 }
 
 int opt;
 int main() {
-    cout << "Attendance Management System" << endl;
-    cout << "Current attendance: " << "(" << attendanceCount << " student has attended" << ")" << endl;
+    while (true) {
+        cout << "Attendance Management System" << endl;
+        cout << "Current attendance: " << "(" << attendanceCount << " student has attended" << ")" << endl;
 
-    GetAttendance();
+        GetAttendance();
 
-    // menu
-    cout << "Menu:" << endl;
-    cout << "1. Add Attendance" << endl;
-    cout << "2. Exit" << endl;
-    cout << "Choose an option >> ";
-    cin >> opt;
+        // menu
+        cout << "Menu:" << endl;
+        cout << "1. Add Attendance" << endl;
+        cout << "2. Exit" << endl;
+        cout << "Choose an option >> ";
+        cin >> opt;
 
-    if (opt == 1) {
-        AddAttendance();
+        if (opt == 1) {
+            AddAttendance();
+        } else if (opt == 2) {
+            break;
+        }
+
+        cout << endl;
     }
 }
