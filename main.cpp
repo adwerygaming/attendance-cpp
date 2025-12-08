@@ -2,6 +2,7 @@
 #include <array>
 #include <ctime>
 #include <algorithm>
+#include <iomanip>
 
 #include "AttendanceTypes.h"
 using namespace std;
@@ -39,8 +40,10 @@ bool AddEntry(AttendanceCreate entry) {
 // get all attendance on the list
 void GetAttendance() {
     for (int i = 0; i < attendanceCount; i++) {
-        cout << "[" << i << "] " << "Name: " << attendanceList[i].name << ", NIM: " << attendanceList[i].nim
-             << ", Timestamp: " << ctime(&attendanceList[i].timestamp);
+        time_t tm = attendanceList[i].timestamp;
+        time_t formattedTimestamp = put_time(tm, "%a %b %e %H:%M:%S %Y");
+        cout << "[" << i + 1 << "] " << "Name: " << attendanceList[i].name << ", NIM: " << attendanceList[i].nim
+             << ", Timestamp: " << formattedTimestamp);
     }
 }
 
