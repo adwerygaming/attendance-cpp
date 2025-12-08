@@ -1,40 +1,45 @@
-#include <iostream>
-#include <array>
-#include <chrono>
+//
+// Created by masdepan on 12/8/25.
+//
 
-#include "../types/AttendanceTypes.h"
+#include "AttendanceService.h"
+#include <array>
+
+#include "AttendanceTypes.h"
 using namespace std;
 
-const int maxEntryLength = 32;
-array<AttendanceEntry, maxEntryLength> attendanceList;
-int attendanceEntryLength = 0;
+const int attendanceMaxSize = 64;
+array<AttendanceEntry, attendanceMaxSize> attendanceList;
+int attendanceCount = 0;
 
+// Create
+// marking new attendance
 bool AddEntry(AttendanceEntry entry) {
-    if (attendanceEntryLength > attendanceList.size()) {
+    if (attendanceCount > attendanceMaxSize) {
         return false;
     }
 
-    // auto assign timestamp for each entry
-    auto now = std::chrono::system_clock::now();
-    std::time_t ts = std::chrono::system_clock::to_time_t(now);
-    entry.timestamp = ts;
-
-    attendanceList[attendanceEntryLength] = entry;
-    attendanceEntryLength++;
-
+    attendanceList[attendanceCount++] = entry;
     return true;
 }
 
-bool RemoveEntry(int index) {
-    attendanceList[index] = {};
-
-    return true;
-}
-
-array<AttendanceEntry, maxEntryLength> GetAllEntry() {
-    if (attendanceEntryLength == 0) {
-        return {};
-    }
-
+// Read
+// get all attendance on the list
+array<AttendanceEntry, attendanceMaxSize> GetAttendance() {
     return attendanceList;
+}
+
+// Update
+// update existing attendance or sum like that idk
+bool UpdateAttendance(AttendanceEntry entry, int index) {
+    attendanceList[index] = entry;
+    return true;
+}
+
+// Delete
+// delete existing attendance or sum like that idk
+bool DeleteAttendance(int index) {
+    attendanceList[index] = {};
+    attendanceCount--;
+    return true;
 }

@@ -1,12 +1,14 @@
 cmake_minimum_required(VERSION 4.0)
 project(attendance_cpp)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(types)
 
 add_executable(attendance_cpp
-        services/AttendanceService.cpp
         types/AttendanceTypes.h
-        Test.cpp
+        main.cpp
+        services/AttendanceService.h
+        services/AttendanceService.cpp
         services/AttendanceService.h)

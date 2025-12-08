@@ -1,8 +1,22 @@
-//
-// Created by masdepan on 12/7/25.
-//
+// services/AttendanceService.h
+#pragma once
 
-#ifndef ATTENDANCE_CPP_ATTENDANCESERVICE_H
-#define ATTENDANCE_CPP_ATTENDANCESERVICE_H
+#include <array>
+#include "AttendanceTypes.h"
 
-#endif //ATTENDANCE_CPP_ATTENDANCESERVICE_H
+constexpr int attendanceMaxSize = 64;
+
+extern std::array<AttendanceEntry, attendanceMaxSize> attendanceList;
+extern int attendanceCount;
+
+// Create
+bool AddEntry(AttendanceEntry entry);
+
+// Read
+std::array<AttendanceEntry, attendanceMaxSize> GetAttendance();
+
+// Update
+bool UpdateAttendance(AttendanceEntry entry, int index);
+
+// Delete
+bool DeleteAttendance(int index);
