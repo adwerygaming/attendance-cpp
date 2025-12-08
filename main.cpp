@@ -11,15 +11,16 @@ int attendanceCount = 0;
 
 // Create
 // marking new attendance
-bool AddEntry(AttendanceEntry entry) {
+bool AddEntry(AttendanceCreate entry) {
     if (attendanceCount > attendanceMaxSize) {
         return false;
     }
 
-    // inject timestamp to current time
-    entry.timestamp = time(0);
-
-    attendanceList[attendanceCount++] = entry;
+    attendanceList[attendanceCount++] = {
+        entry.name,
+        entry.nim
+        time_t
+    };
     return true;
 }
 
