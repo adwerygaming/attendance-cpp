@@ -41,10 +41,10 @@ bool AddEntry(AttendanceCreate entry) {
 void GetAttendance() {
     for (int i = 0; i < attendanceCount; i++) {
         AttendanceEntry entry = attendanceList[i];
-        tm* tm = std::localtime(&entry.t1imestamp);
+        tm* tm = std::localtime(&entry.timestamp);
 
-        cout << "[" << i + 1 << "] " << "Name: " << entry.name << ", NIM: " << entry.nim
-             << ", Timestamp: " << put_time(tm, "%a %b %e %H:%M:%S %Y") << endl;
+        cout << "[" << i + 1 << "] " << entry.name << " | " << entry.nim
+             << " | " << put_time(tm, "%a %b %e %H:%M:%S %Y") << endl;
     }
 }
 
