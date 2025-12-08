@@ -1,5 +1,6 @@
 #include <iostream>
 #include <array>
+#include <ctime>
 
 #include "AttendanceTypes.h"
 using namespace std;
@@ -18,9 +19,10 @@ bool AddEntry(AttendanceCreate entry) {
 
     attendanceList[attendanceCount++] = {
         entry.name,
-        entry.nim
-        time_t
+        entry.nim,
+        time(nullptr) // returns the current Unix time in seconds since 1970.
     };
+
     return true;
 }
 
