@@ -26,8 +26,8 @@ bool AddEntry(AttendanceCreate entry) {
     }
 
     attendanceList[attendanceCount] = {
-        entry.name,
         entry.nim,
+        entry.name,
         time(nullptr) // returns the current Unix time in seconds since 1970.
     };
     attendanceCount++;
@@ -72,14 +72,15 @@ void AddAttendance() {
         AttendanceCreate item = validMahasiswa[i];
         if (nim == item.nim) {
             // avoid duplicate entry
-            for (int j = 0; j < attendanceCount; j++) {
-                AttendanceEntry entry = attendanceList[j];
-
-                if (entry.nim == nim) {
-                    cout << entry.name << " has already attended." << endl;
-                    found = true;
-                    break;
+            bool alreadyExists = any_of(attendanceList.begin(), attendanceList.end(),
+                [&](const AttendanceEntry& e) {
+                    return e.nim == nim;
                 }
+            );
+
+            if (alreadyExists) {
+                cout << "Mahasiswa already marked attendance." << endl;
+                return;
             }
 
             cout << "Added " << item.name << " to attendance list." << endl;
