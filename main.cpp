@@ -50,9 +50,31 @@ bool DeleteAttendance(int index) {
     return true;
 }
 
+int opt;
 int main() {
     cout << "Attendance Management System" << endl;
-    cout << "Current attendance: " << "(" << attendanceCount << "student has attended" << ")" << endl;
+    cout << "Current attendance: " << "(" << attendanceCount << " student has attended" << ")" << endl;
 
     GetAttendance();
+
+    // menu
+    cout << "Menu:" << endl;
+    cout << "1. Add Attendance" << endl;
+    cout << "2. Exit" << endl;
+    cout << "Choose an option >> ";
+    cin >> opt;
+
+    if (opt == 1) {
+
+    }
+}
+
+void AddAttendance() {
+    int opt;
+    string nim;
+
+    cout << "Enter NIM: ";
+    cin >> nim;
+
+
 }
