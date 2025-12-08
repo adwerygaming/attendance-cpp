@@ -10,6 +10,13 @@ const int attendanceMaxSize = 64;
 array<AttendanceEntry, attendanceMaxSize> attendanceList;
 int attendanceCount = 0;
 
+array<AttendanceCreate, attendanceMaxSize> validMahasiswa = {
+    AttendanceCreate{"25.12.1234", "Alice"},
+    AttendanceCreate{"25.12.2345", "Alice 2"},
+    AttendanceCreate{"25.12.3213", "Alice 3"},
+    AttendanceCreate{"25.12.6654", "Alice 4"},
+};
+
 // Create
 // marking new attendance
 bool AddEntry(AttendanceCreate entry) {
@@ -50,6 +57,30 @@ bool DeleteAttendance(int index) {
     return true;
 }
 
+
+void AddAttendance() {
+    int opt;
+    bool found = false;
+    string nim;
+
+    cout << "Enter NIM: ";
+    cin >> nim;
+
+    for (int i = 0; i < validMahasiswa.size(); ++i) {
+        AttendanceCreate item = validMahasiswa[i];
+        if (nim == item.nim) {
+            cout << "Added " << item.name << " to attendance list." << endl;
+            AddEntry(item);
+            found = true;
+            break;
+        }
+    }
+
+    if (found == false) {
+        cout << "Could find mahasiswa on database." << endl;
+    }
+}
+
 int opt;
 int main() {
     cout << "Attendance Management System" << endl;
@@ -65,16 +96,6 @@ int main() {
     cin >> opt;
 
     if (opt == 1) {
-
+        AddAttendance();
     }
-}
-
-void AddAttendance() {
-    int opt;
-    string nim;
-
-    cout << "Enter NIM: ";
-    cin >> nim;
-
-
 }
