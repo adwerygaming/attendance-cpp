@@ -1,6 +1,7 @@
 #include <iostream>
 #include <array>
 #include <ctime>
+#include <algorithm>
 
 #include "AttendanceTypes.h"
 using namespace std;
@@ -72,13 +73,16 @@ void AddAttendance() {
         if (nim == item.nim) {
 
             // avoid duplicate entry
-            for (int j = 0; j < attendanceCount; j++) {
-                AttendanceEntry entry = attendanceList[j];
-
-                if (entry.nim == nim) {
-                    cout << "Mahasiswa already marked attendance." << endl;
-                    return;
+            bool alreadyExists = any_of(attendanceList.begin(), attendanceList.end(),
+                [&](const AttendanceEntry& e) {
+                    return e.nim == nim;
                 }
+            );
+
+            if (alreadyExists) {
+                cout << item.name << " has already attended." << endl;
+                found = true;
+                break;
             }
 
             cout << "Added " << item.name << " to attendance list." << endl;
