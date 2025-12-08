@@ -65,7 +65,6 @@ bool DeleteAttendance(int index) {
 
 
 void AddAttendance() {
-    int opt;
     bool found = false;
     string nim;
 
