@@ -28,8 +28,11 @@ bool AddEntry(AttendanceCreate entry) {
 
 // Read
 // get all attendance on the list
-array<AttendanceEntry, attendanceMaxSize> GetAttendance() {
-    return attendanceList;
+void GetAttendance() {
+    for (int i = 0; i < attendanceCount; i++) {
+        cout << "[" << i << "] " << "Name: " << attendanceList[i].name << ", NIM: " << attendanceList[i].nim
+             << ", Timestamp: " << ctime(&attendanceList[i].timestamp);
+    }
 }
 
 // Update
@@ -48,5 +51,8 @@ bool DeleteAttendance(int index) {
 }
 
 int main() {
+    cout << "Attendance Management System" << endl;
+    cout << "Current attendance: " << "(" << attendanceCount << "student has attended" << ")" << endl;
 
+    GetAttendance();
 }
