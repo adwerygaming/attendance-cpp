@@ -79,6 +79,9 @@ void AddAttendance() {
     if (found == false) {
         cout << "Could find mahasiswa on database." << endl;
     }
+
+    // back to main menu
+    main();
 }
 
 int opt;
