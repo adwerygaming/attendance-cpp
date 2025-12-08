@@ -70,6 +70,17 @@ void AddAttendance() {
     for (int i = 0; i < validMahasiswa.size(); ++i) {
         AttendanceCreate item = validMahasiswa[i];
         if (nim == item.nim) {
+
+            // avoid duplicate entry
+            for (int j = 0; j < attendanceCount; j++) {
+                AttendanceEntry entry = attendanceList[j];
+
+                if (entry.nim == nim) {
+                    cout << "Mahasiswa already marked attendance." << endl;
+                    return;
+                }
+            }
+
             cout << "Added " << item.name << " to attendance list." << endl;
             bool res = AddEntry(item);
 
