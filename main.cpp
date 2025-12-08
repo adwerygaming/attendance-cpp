@@ -29,6 +29,7 @@ bool AddEntry(AttendanceCreate entry) {
         entry.nim,
         time(nullptr) // returns the current Unix time in seconds since 1970.
     };
+    attendanceCount++;
 
     return true;
 }
@@ -70,7 +71,12 @@ void AddAttendance() {
         AttendanceCreate item = validMahasiswa[i];
         if (nim == item.nim) {
             cout << "Added " << item.name << " to attendance list." << endl;
-            AddEntry(item);
+            bool res = AddEntry(item);
+
+            if (res) {
+                cout << "add ok" << endl;
+            }
+
             found = true;
             break;
         }
