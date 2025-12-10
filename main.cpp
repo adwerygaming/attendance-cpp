@@ -127,10 +127,12 @@ void AddAttendance() {
 void RemoveAttendance() {
     cout << "Current attendance: " << "(" << attendanceCount << " student has attended" << ")" << endl;
     GetAttendance();
+
+    int 
 }
 
 int main() {
-    AddEntry({ "25.12.1234", "Alice", time(nullptr) });
+    AddEntry({ "25.12.1234", "Alice" });
 
     while (true) {
         clearConsole();
