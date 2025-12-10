@@ -68,7 +68,7 @@ void AddAttendance() {
     string nim;
 
     cout << "Enter NIM: ";
-    cin >> nim;
+    getline(cin, nim);
 
     for (int i = 0; i < validMahasiswa.size(); ++i) {
         AttendanceCreate item = validMahasiswa[i];
@@ -112,14 +112,17 @@ int main() {
 
         // menu
         cout << "Menu:" << endl;
-        cout << "1. Add Attendance" << endl;
-        cout << "2. Exit" << endl;
+        cout << "[1] Add Attendance" << endl;
+        cout << "[2] Refresh" << endl;
+        cout << "[0] Exit" << endl;
         cout << "Choose an option >> ";
         cin >> opt;
 
         if (opt == 1) {
             AddAttendance();
         } else if (opt == 2) {
+            // just refresh
+        } else if (opt == 0) {
             break;
         }
 
