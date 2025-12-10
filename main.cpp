@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <iomanip>
 
-#include "AttendanceTypes.h"
+#include "./types/AttendanceTypes.h"
 using namespace std;
 
 // functions
@@ -62,8 +62,6 @@ bool DeleteAttendance(int index) {
     attendanceCount--;
     return true;
 }
-
-
 void AddAttendance() {
     bool found = false;
     string nim;
