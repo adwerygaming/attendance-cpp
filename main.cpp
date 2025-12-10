@@ -64,6 +64,7 @@ bool DeleteAttendance(int index) {
 }
 
 void AddAttendance() {
+    cout << "DEBUG: Adding attendance" << endl;
     bool found = false;
     string nim;
 
