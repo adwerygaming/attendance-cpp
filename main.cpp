@@ -122,7 +122,7 @@ void AddAttendance() {
 
         // check valid mahasigma
         if (nim == item.nim) {
-            
+
             // avoid duplicate entry
             bool alreadyExists = any_of(attendanceList.begin(), attendanceList.end(),
                 [&](const AttendanceEntry& e) {
