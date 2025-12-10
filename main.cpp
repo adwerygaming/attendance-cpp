@@ -3,6 +3,7 @@
 #include <ctime>
 #include <algorithm>
 #include <iomanip>
+#include <thread>
 
 #include "./types/AttendanceTypes.h"
 using namespace std;
@@ -14,13 +15,33 @@ int attendanceCount = 0;
 
 array<AttendanceCreate, attendanceMaxSize> validMahasiswa = {
     AttendanceCreate{"25.12.3654", "MasDepan"},
-    AttendanceCreate{"25.12.3655", "MasDepan 2"},
-    AttendanceCreate{"25.12.3656", "MasDepan 3"},
+    AttendanceCreate{"25.12.3655", "MasBelakang"},
+    AttendanceCreate{"25.12.3656", "MasKiri"},
+    AttendanceCreate{"25.12.3657", "MasKanan"},
+    AttendanceCreate{"25.12.3658", "MasTengah"},
+    AttendanceCreate{"25.12.3659", "MasAtas"},
+    AttendanceCreate{"25.12.3660", "MasBawah"},
+    AttendanceCreate{"25.12.3661", "MasLuar"},
+    AttendanceCreate{"25.12.3662", "MasDalam"},
+    AttendanceCreate{"25.12.3663", "MasDepanLagi"},
+    AttendanceCreate{"25.12.3664", "MasBelakangLagi"},
+    AttendanceCreate{"25.12.3665", "MasKiriLagi"},
+    AttendanceCreate{"25.12.3666", "MasKananLagi"},
+    AttendanceCreate{"25.12.3667", "MasTengahLagi"},
+    AttendanceCreate{"25.12.3668", "MasAtasLagi"},
+    AttendanceCreate{"25.12.3669", "MasBawahLagi"},
+    AttendanceCreate{"25.12.3670", "MasLuarLagi"},
+    AttendanceCreate{"25.12.3671", "MasDalamLagi"},
 };
 
 void clearConsole() {
     // system("clear");
     cout << "\033[2J\033[1;1H";
+    // cout << endl;
+}
+
+void sleep(int ms) {
+    this_thread::sleep_for(chrono::milliseconds(ms));
 }
 
 // Create
@@ -30,12 +51,17 @@ bool AddEntry(AttendanceCreate entry) {
         return false;
     }
 
-    attendanceList[attendanceCount] = {
-        entry.nim,
-        entry.name,
-        time(nullptr) // returns the current Unix time in seconds since 1970.
-    };
-    attendanceCount++;
+    if (!entry.nim.empty()) {
+        attendanceList[attendanceCount] = {
+            entry.nim,
+            entry.name,
+            time(nullptr) // returns the current Unix time in seconds since 1970.
+        };
+        attendanceCount++;
+    } else {
+        cout << "ERROR: Entry tidak mempunyai NIM." << endl;
+        return false;
+    }
 
     return true;
 }
@@ -47,9 +73,14 @@ void GetEntries() {
         AttendanceEntry entry = attendanceList[i];
         tm* tm = localtime(&entry.timestamp);
 
-        cout << "[" << i + 1 << "] " << entry.name << " | " << entry.nim
-             << " | " << put_time(tm, "%a %b %e %H:%M:%S %Y") << endl;
+        sleep(30);
+        cout << "[" << i + 1 << "]" << " | " << entry.name << " | " << entry.nim
+             << " | " << put_time(tm, "%H:%M:%S") << endl;
     }
+}
+
+AttendanceEntry GetEntryByIndex(int index) {
+    return attendanceList[index - 1];
 }
 
 // Update
@@ -88,7 +119,7 @@ AttendanceEntry RemoveEntry(int index1based) {
 // splitted bcs to multiple triggers in 1 same function
 string GetNIMInput() {
     string nim;
-    cout << "Enter NIM: ";
+    cout << "Masukkan NIM: ";
     getline(cin, nim);
 
     return nim;
@@ -131,15 +162,15 @@ void AddAttendance() {
             );
 
             if (alreadyExists) {
-                cout << "Mahasiswa already marked attendance." << endl;
+                cout << "Mahasiswa ini sudah ada di dalam daftar presensi." << endl;
+                sleep(3000);
                 return;
             }
 
-            cout << "Added " << item.name << " to attendance list." << endl;
             bool res = AddEntry(item);
 
             if (res) {
-                cout << "Added successfully!" << endl;
+                cout << "Berhasil menambahkan " << item.name << " ke daftar kehadiran." << endl;
             }
 
             found = true;
@@ -148,46 +179,81 @@ void AddAttendance() {
     }
 
     if (found == false) {
-        cout << "Could find mahasiswa on database." << endl;
+        cout << "Tidak ditemukan mahasiswa dengan NIM tersebut di database.." << endl;
         nim = GetNIMInput();
     }
+
+    sleep(3000);
 }
 
 void RemoveAttendance() {
     clearConsole();
     if (attendanceCount == 0) {
-        cout << "There is nothing on the attendance list." << endl;
+        cout << "Daftar kehadiran masih kosong, apa yang mau di hapus?" << endl;
         return;
     }
 
-    cout << "Current attendance: " << endl;
+    cout << "Kehadiran: " << endl;
     GetEntries();
-    cout << "(" << attendanceCount << " student has attended" << ")" << endl;
+    sleep(100);
+    cout << endl;
+    cout << "(" << attendanceCount << " mahasiswa hadir" << ")" << endl;
 
     cout << endl;
-    cout << "To remove attendance from the list, enter the index you want to remove." << endl;
-    cout << "Enter index to remove attendance >> ";
+    cout << "Untuk menggagalkan presensi, masukkan nomor index [int] dari list di atas ini." << endl;
+    cout << "Nomor Index yang ingin digagalkan >> ";
 
     int opt;
     string line;
 
     getline(cin, line);
+
+    if (line == "exit") {
+        return;
+    }
+
     opt = stoi(line);
     // cin >> opt;
 
-    AttendanceEntry res = RemoveEntry(opt);
+    AttendanceEntry check = GetEntryByIndex(opt);
 
-    if (!res.name.empty()) {
-        cout << res.name << " (" << res.nim << ") " << "has been removed from the attendance list" << endl;
+    if (!check.nim.empty()) {
+        clearConsole();
+        cout << "Apakah anda yakin ingin menggagalkan presensi " << check.name << " (" << check.nim << ")? (y/n): ";
+        string answer;
+        getline(cin, answer);
+
+        while (answer.empty()) {
+            // handle empty input if newline is leftover
+            getline(cin, answer);
+        }
+
+        char confirm = answer[0];
+
+        if (confirm == 'y' || confirm == 'Y') {
+            AttendanceEntry res = RemoveEntry(opt);
+
+            if (!res.name.empty()) {
+                cout << "Absensi " << res.name << " (" << res.nim << ") " << "berhasil digagalkan." << endl;
+            } else {
+                cout << "Gagal menggagalkan presensi." << endl;
+            }
+        } else {
+            cout << "Gagalkan presensi dibatalkan." << endl;
+        }
     } else {
-        cout << "Remove attendance failed." << endl;
+        cout << "Index tidak valid." << endl;
     }
+
+    sleep(3000);
 }
 
 int main() {
-    AddEntry({"25.12.3654", "MasDepan"});
-    AddEntry({"25.12.3655", "MasDepan 2"});
-    AddEntry({"25.12.3656", "MasDepan 3"});
+    // dummy pre-load data
+    for (int i = 0; i < validMahasiswa.size(); ++i) {
+        AttendanceCreate item = validMahasiswa[i];
+        AddEntry(item);
+    }
 
     while (true) {
         clearConsole();
@@ -197,24 +263,25 @@ int main() {
 
         int opt;
         string line;
-        cout << "Attendance Management System" << endl;
+        cout << "Sistem Presensi Simpel Berbasis CLI" << endl;
 
         cout << endl;
-        cout << "Current attendance: " << endl;
+        cout << "Daftar Kehadiran: " << endl;
         GetEntries();
         cout << endl;
-        cout << "(" << attendanceCount << " student has attended" << ")" << endl;
+        cout << "(" << attendanceCount << " mahasiswa hadir" << ")" << endl;
 
         // menu
         cout << endl;
-        cout << "Menu:" << endl;
-        cout << "[1] Add Attendance" << endl;
-        cout << "[2] Remove Attendance" << endl;
-        cout << "[3] Refresh" << endl;
-        cout << "[0] Exit" << endl;
-        cout << "Choose an option >> ";
-        getline(cin, line);
+        cout << "===== Menu =====" << endl;
+        cout << "[1] Lakukan Presensi" << endl;
+        cout << "[2] Gagalkan Presensi" << endl;
+        cout << "[3] Refresh Data" << endl;
+        cout << "[0] Akhiri Sesi" << endl;
+        cout << endl;
+        cout << "Pilih Opsi >> ";
 
+        getline(cin, line);
         opt = stoi(line);
 
         if (opt == 1) {
@@ -225,7 +292,7 @@ int main() {
             // just refresh
             // loops back this progieaming
         } else if (opt == 0) {
-            cout << "Have a nice day!" << endl;
+            cout << "Dari sesi ini, ada " << attendanceCount << " mahasiswa yang hadir." << endl;
             break;
         }
 
