@@ -126,6 +126,12 @@ void AddAttendance() {
 }
 
 void RemoveAttendance() {
+    
+    if (attendanceCount == 0) {
+        cout << "There is nothing on the attendance list." << endl;
+        return;
+    }
+
     cout << "Current attendance: " << "(" << attendanceCount << " student has attended" << ")" << endl;
     GetEntries();
 
@@ -133,12 +139,11 @@ void RemoveAttendance() {
     cout << "Enter index to remove attendance >> ";
 
     int opt;
-    // string line;
-    //
-    // getline(cin, line);
-    //
-    // opt = stoi(line);
-    cin >> opt;
+    string line;
+
+    getline(cin, line);
+    opt = stoi(line);
+    // cin >> opt;
 
     AttendanceEntry res = RemoveEntry(opt);
 
