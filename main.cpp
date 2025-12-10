@@ -119,7 +119,10 @@ void AddAttendance() {
 
 int main() {
     while (true) {
+        // why there is 2 datatypes for menu opt?
+        //
         int opt;
+        string line;
         cout << "Attendance Management System" << endl;
         cout << "Current attendance: " << "(" << attendanceCount << " student has attended" << ")" << endl;
 
@@ -132,6 +135,8 @@ int main() {
         cout << "[0] Exit" << endl;
         cout << "Choose an option >> ";
         getline(cin, line);
+
+        opt = stoi(line);
 
         if (opt == 1) {
             AddAttendance();
