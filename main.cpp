@@ -146,6 +146,7 @@ int main() {
             // just refresh
             // loops back this progieaming
         } else if (opt == 0) {
+            cout << "Have a nice day!" << endl;
             break;
         }
 
