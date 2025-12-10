@@ -61,12 +61,30 @@ bool UpdateEntry(AttendanceEntry entry, int index) {
 
 // Delete
 // delete existing attendance or sum like that idk
-AttendanceEntry RemoveEntry(int index) {
-    AttendanceEntry entry = attendanceList[index - 1];
-    attendanceList[index - 1] = {};
+AttendanceEntry RemoveEntry(int index1based) {
+    int idx = index1based - 1;
+
+    // safety check
+    if (idx < 0 || idx >= attendanceCount) {
+        return {}; // or throw, or handle error
+    }
+
+    // store removed item
+    AttendanceEntry removed = attendanceList[idx];
+
+    // shift everything down one slot
+    for (int i = idx; i < attendanceCount - 1; i++) {
+        attendanceList[i] = attendanceList[i + 1];
+    }
+
+    // clear last slot (important!)
+    attendanceList[attendanceCount - 1] = {};
+
     attendanceCount--;
-    return entry;
+
+    return removed;
 }
+
 
 // splitted bcs to multiple triggers in 1 same function
 string GetNIMInput() {
