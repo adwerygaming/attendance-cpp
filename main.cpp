@@ -68,6 +68,7 @@ bool DeleteAttendance(int index) {
     return true;
 }
 
+// splitted bcs to multiple triggers in 1 same function
 string GetNIMInput() {
     string nim;
     cout << "Enter NIM: ";
@@ -123,6 +124,11 @@ void AddAttendance() {
     }
 }
 
+void RemoveAttendance(int index) {
+    cout << "Current attendance: " << "(" << attendanceCount << " student has attended" << ")" << endl;
+    GetAttendance();
+}
+
 int main() {
     while (true) {
         clearConsole();
@@ -151,6 +157,8 @@ int main() {
         if (opt == 1) {
             AddAttendance();
         } else if (opt == 2) {
+            
+        } else if (opt == 3) {
             // just refresh
             // loops back this progieaming
         } else if (opt == 0) {
