@@ -67,19 +67,23 @@ string GetNIMInput() {
     string nim;
     cout << "Enter NIM: ";
     getline(cin, nim);
+
+    return nim;
 }
 
 void AddAttendance() {
     cout << "DEBUG: Adding attendance" << endl;
     bool found = false;
-    string nim;
 
-    cout << "Enter NIM: ";
-    getline(cin, nim);
+    string nim = GetNIMInput();
 
-    if (nim.empty()) {
-
+    // keep asking for NIM if empty
+    while (nim.empty()) {
+        cout << "NIM cannot be empty. Please enter a valid NIM." << endl;
+        nim = GetNIMInput();
     }
+
+    cout << "DEBUG: NIM entered: " << nim << endl;
 
     for (int i = 0; i < validMahasiswa.size(); ++i) {
         AttendanceCreate item = validMahasiswa[i];
@@ -107,9 +111,10 @@ void AddAttendance() {
             break;
         }
     }
-
+    
     if (found == false) {
         cout << "Could find mahasiswa on database." << endl;
+        nim = GetNIMInput();
     }
 }
 
