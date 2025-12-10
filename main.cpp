@@ -14,13 +14,13 @@ int attendanceCount = 0;
 
 array<AttendanceCreate, attendanceMaxSize> validMahasiswa = {
     AttendanceCreate{"25.12.3654", "MasDepan"},
-    AttendanceCreate{"25.12.3654", "MasDepan"},
-    AttendanceCreate{"25.12.3654", "MasDepan"},
+    AttendanceCreate{"25.12.3655", "MasDepan 2"},
+    AttendanceCreate{"25.12.3656", "MasDepan 3"},
 };
 
 void clearConsole() {
     // system("clear");
-    cout << "\033[2J\033[1;1H";
+    // cout << "\033[2J\033[1;1H";
 }
 
 // Create
@@ -62,8 +62,8 @@ bool UpdateEntry(AttendanceEntry entry, int index) {
 // Delete
 // delete existing attendance or sum like that idk
 AttendanceEntry RemoveEntry(int index) {
-    AttendanceEntry entry = attendanceList[index];
-    entry = {};
+    AttendanceEntry entry = attendanceList[index - 1];
+    attendanceList[index - 1] = {};
     attendanceCount--;
     return entry;
 }
@@ -142,8 +142,9 @@ void RemoveAttendance() {
         return;
     }
 
-    cout << "Current attendance: " << "(" << attendanceCount << " student has attended" << ")" << endl;
+    cout << "Current attendance: " << endl;
     GetEntries();
+    cout << "(" << attendanceCount << " student has attended" << ")" << endl;
 
     cout << endl;
     cout << "To remove attendance from the list, enter the index you want to remove." << endl;
@@ -166,6 +167,10 @@ void RemoveAttendance() {
 }
 
 int main() {
+    AddEntry({"25.12.3654", "MasDepan"});
+    AddEntry({"25.12.3655", "MasDepan 2"});
+    AddEntry({"25.12.3656", "MasDepan 3"});
+
     while (true) {
         clearConsole();
         // why there is 2 datatypes for menu opt?
@@ -175,9 +180,12 @@ int main() {
         int opt;
         string line;
         cout << "Attendance Management System" << endl;
-        cout << "Current attendance: " << "(" << attendanceCount << " student has attended" << ")" << endl;
 
+        cout << endl;
+        cout << "Current attendance: " << endl;
         GetEntries();
+        cout << endl;
+        cout << "(" << attendanceCount << " student has attended" << ")" << endl;
 
         // menu
         cout << endl;
