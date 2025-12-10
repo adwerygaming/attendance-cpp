@@ -79,7 +79,6 @@ void AddAttendance() {
 
     // keep asking for NIM if empty
     while (nim.empty()) {
-        cout << "NIM cannot be empty. Please enter a valid NIM." << endl;
         nim = GetNIMInput();
     }
 
@@ -111,7 +110,7 @@ void AddAttendance() {
             break;
         }
     }
-    
+
     if (found == false) {
         cout << "Could find mahasiswa on database." << endl;
         nim = GetNIMInput();
@@ -132,7 +131,7 @@ int main() {
         cout << "[2] Refresh" << endl;
         cout << "[0] Exit" << endl;
         cout << "Choose an option >> ";
-        cin >> opt;
+        getline(cin, line);
 
         if (opt == 1) {
             AddAttendance();
