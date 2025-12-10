@@ -7,7 +7,7 @@
 #include "./types/AttendanceTypes.h"
 using namespace std;
 
-// functions
+// declarations
 const int attendanceMaxSize = 64;
 array<AttendanceEntry, attendanceMaxSize> attendanceList;
 int attendanceCount = 0;
@@ -122,6 +122,7 @@ void AddAttendance() {
 
         // check valid mahasigma
         if (nim == item.nim) {
+            
             // avoid duplicate entry
             bool alreadyExists = any_of(attendanceList.begin(), attendanceList.end(),
                 [&](const AttendanceEntry& e) {
