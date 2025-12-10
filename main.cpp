@@ -130,6 +130,8 @@ void RemoveAttendance() {
 }
 
 int main() {
+    AddEntry({ "25.12.1234", "Alice", time(nullptr) });
+
     while (true) {
         clearConsole();
         // why there is 2 datatypes for menu opt?
