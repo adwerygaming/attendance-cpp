@@ -85,7 +85,6 @@ AttendanceEntry RemoveEntry(int index1based) {
     return removed;
 }
 
-
 // splitted bcs to multiple triggers in 1 same function
 string GetNIMInput() {
     string nim;
