@@ -62,10 +62,11 @@ bool UpdateEntry(AttendanceEntry entry, int index) {
 
 // Delete
 // delete existing attendance or sum like that idk
-bool RemoveEntry(int index) {
-    attendanceList[index] = {};
+AttendanceEntry RemoveEntry(int index) {
+    AttendanceEntry entry = attendanceList[index];
+    entry = {};
     attendanceCount--;
-    return true;
+    return entry;
 }
 
 // splitted bcs to multiple triggers in 1 same function
@@ -137,8 +138,15 @@ void RemoveAttendance() {
     // getline(cin, line);
     //
     // opt = stoi(line);
+    cin >> opt;
 
-    DeleteEntry(opt);
+    AttendanceEntry res = RemoveEntry(opt);
+
+    if (!res.name.empty()) {
+        cout << res.name << " (" << res.nim << ") " << "has been removed from the attendance list" << endl;
+    } else {
+        cout << "Remove attendance failed." << endl;
+    }
 }
 
 int main() {
@@ -155,7 +163,7 @@ int main() {
         cout << "Attendance Management System" << endl;
         cout << "Current attendance: " << "(" << attendanceCount << " student has attended" << ")" << endl;
 
-        GetAttendance();
+        GetEntries();
 
         // menu
         cout << endl;
