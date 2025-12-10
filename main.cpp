@@ -20,7 +20,7 @@ array<AttendanceCreate, attendanceMaxSize> validMahasiswa = {
 
 void clearConsole() {
     // system("clear");
-    // cout << "\033[2J\033[1;1H";
+    cout << "\033[2J\033[1;1H";
 }
 
 // Create
