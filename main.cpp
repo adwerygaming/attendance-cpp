@@ -43,7 +43,7 @@ bool AddEntry(AttendanceCreate entry) {
 
 // Read
 // get all attendance on the list
-void GetAttendance() {
+void GetEntries() {
     for (int i = 0; i < attendanceCount; i++) {
         AttendanceEntry entry = attendanceList[i];
         tm* tm = std::localtime(&entry.timestamp);
@@ -55,14 +55,14 @@ void GetAttendance() {
 
 // Update
 // update existing attendance or sum like that idk
-bool UpdateAttendance(AttendanceEntry entry, int index) {
+bool UpdateEntry(AttendanceEntry entry, int index) {
     attendanceList[index] = entry;
     return true;
 }
 
 // Delete
 // delete existing attendance or sum like that idk
-bool DeleteAttendance(int index) {
+bool RemoveEntry(int index) {
     attendanceList[index] = {};
     attendanceCount--;
     return true;
@@ -126,9 +126,19 @@ void AddAttendance() {
 
 void RemoveAttendance() {
     cout << "Current attendance: " << "(" << attendanceCount << " student has attended" << ")" << endl;
-    GetAttendance();
+    GetEntries();
+
+    cout << "To remove attendance from the list, enter the index you want to remove." << endl;
+    cout << "Enter index to remove attendance >> ";
 
     int opt;
+    // string line;
+    //
+    // getline(cin, line);
+    //
+    // opt = stoi(line);
+
+    DeleteEntry(opt);
 }
 
 int main() {
