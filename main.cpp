@@ -62,6 +62,7 @@ bool DeleteAttendance(int index) {
     attendanceCount--;
     return true;
 }
+
 void AddAttendance() {
     bool found = false;
     string nim;
@@ -101,9 +102,9 @@ void AddAttendance() {
     }
 }
 
-int opt;
 int main() {
     while (true) {
+        int opt;
         cout << "Attendance Management System" << endl;
         cout << "Current attendance: " << "(" << attendanceCount << " student has attended" << ")" << endl;
 
