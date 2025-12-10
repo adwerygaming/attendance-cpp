@@ -124,7 +124,7 @@ void AddAttendance() {
     }
 }
 
-void RemoveAttendance(int index) {
+void RemoveAttendance() {
     cout << "Current attendance: " << "(" << attendanceCount << " student has attended" << ")" << endl;
     GetAttendance();
 }
@@ -157,7 +157,7 @@ int main() {
         if (opt == 1) {
             AddAttendance();
         } else if (opt == 2) {
-            
+            RemoveAttendance();
         } else if (opt == 3) {
             // just refresh
             // loops back this progieaming
