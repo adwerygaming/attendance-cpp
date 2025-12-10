@@ -120,7 +120,9 @@ void AddAttendance() {
 int main() {
     while (true) {
         // why there is 2 datatypes for menu opt?
-        //
+        // bcs cin sets a "\n" buffer for next getLine on add attendance functions
+        // so we use string first then convert to int and remove the \n buffer
+
         int opt;
         string line;
         cout << "Attendance Management System" << endl;
@@ -142,6 +144,7 @@ int main() {
             AddAttendance();
         } else if (opt == 2) {
             // just refresh
+            // loops back this progieaming
         } else if (opt == 0) {
             break;
         }
