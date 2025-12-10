@@ -20,7 +20,8 @@ array<AttendanceCreate, attendanceMaxSize> validMahasiswa = {
 };
 
 void clearConsole() {
-    system("clear");
+    // system("clear");
+    cout << "\033[2J\033[1;1H";
 }
 
 // Create
@@ -137,6 +138,7 @@ int main() {
         GetAttendance();
 
         // menu
+        cout << endl;
         cout << "Menu:" << endl;
         cout << "[1] Add Attendance" << endl;
         cout << "[2] Refresh" << endl;
