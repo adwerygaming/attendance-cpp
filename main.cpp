@@ -128,7 +128,7 @@ void RemoveAttendance() {
     cout << "Current attendance: " << "(" << attendanceCount << " student has attended" << ")" << endl;
     GetAttendance();
 
-    int 
+    int opt;
 }
 
 int main() {
