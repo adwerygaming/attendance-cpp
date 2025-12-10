@@ -63,6 +63,12 @@ bool DeleteAttendance(int index) {
     return true;
 }
 
+string GetNIMInput() {
+    string nim;
+    cout << "Enter NIM: ";
+    getline(cin, nim);
+}
+
 void AddAttendance() {
     cout << "DEBUG: Adding attendance" << endl;
     bool found = false;
@@ -70,6 +76,10 @@ void AddAttendance() {
 
     cout << "Enter NIM: ";
     getline(cin, nim);
+
+    if (nim.empty()) {
+
+    }
 
     for (int i = 0; i < validMahasiswa.size(); ++i) {
         AttendanceCreate item = validMahasiswa[i];
