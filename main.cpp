@@ -13,10 +13,9 @@ array<AttendanceEntry, attendanceMaxSize> attendanceList;
 int attendanceCount = 0;
 
 array<AttendanceCreate, attendanceMaxSize> validMahasiswa = {
-    AttendanceCreate{"25.12.1234", "Alice"},
-    AttendanceCreate{"25.12.2345", "Alice 2"},
-    AttendanceCreate{"25.12.3213", "Alice 3"},
-    AttendanceCreate{"25.12.6654", "Alice 4"},
+    AttendanceCreate{"25.12.3654", "MasDepan"},
+    AttendanceCreate{"25.12.3654", "MasDepan"},
+    AttendanceCreate{"25.12.3654", "MasDepan"},
 };
 
 void clearConsole() {
@@ -46,7 +45,7 @@ bool AddEntry(AttendanceCreate entry) {
 void GetEntries() {
     for (int i = 0; i < attendanceCount; i++) {
         AttendanceEntry entry = attendanceList[i];
-        tm* tm = std::localtime(&entry.timestamp);
+        tm* tm = localtime(&entry.timestamp);
 
         cout << "[" << i + 1 << "] " << entry.name << " | " << entry.nim
              << " | " << put_time(tm, "%a %b %e %H:%M:%S %Y") << endl;
@@ -80,7 +79,7 @@ string GetNIMInput() {
 
 void AddAttendance() {
     clearConsole();
-    cout << "DEBUG: Adding attendance" << endl;
+    // cout << "DEBUG: Adding attendance" << endl;
     bool found = false;
 
     string nim = GetNIMInput();
@@ -90,10 +89,21 @@ void AddAttendance() {
         nim = GetNIMInput();
     }
 
-    cout << "DEBUG: NIM entered: " << nim << endl;
+    // cout << "DEBUG: NIM entered: " << nim << endl;
+
+    if (nim == "exit") {
+        return;
+    }
 
     for (int i = 0; i < validMahasiswa.size(); ++i) {
         AttendanceCreate item = validMahasiswa[i];
+
+        // if (item.name == "Pink Fish") {
+        //     cout << item.name << " telah di banned di kelas ini." << endl;
+        //     return;
+        // }
+
+        // check valid mahasigma
         if (nim == item.nim) {
             // avoid duplicate entry
             bool alreadyExists = any_of(attendanceList.begin(), attendanceList.end(),
@@ -111,7 +121,7 @@ void AddAttendance() {
             bool res = AddEntry(item);
 
             if (res) {
-                cout << "add ok" << endl;
+                cout << "Added successfully!" << endl;
             }
 
             found = true;
@@ -126,7 +136,7 @@ void AddAttendance() {
 }
 
 void RemoveAttendance() {
-    
+    clearConsole();
     if (attendanceCount == 0) {
         cout << "There is nothing on the attendance list." << endl;
         return;
@@ -135,6 +145,7 @@ void RemoveAttendance() {
     cout << "Current attendance: " << "(" << attendanceCount << " student has attended" << ")" << endl;
     GetEntries();
 
+    cout << endl;
     cout << "To remove attendance from the list, enter the index you want to remove." << endl;
     cout << "Enter index to remove attendance >> ";
 
@@ -155,8 +166,6 @@ void RemoveAttendance() {
 }
 
 int main() {
-    AddEntry({ "25.12.1234", "Alice" });
-
     while (true) {
         clearConsole();
         // why there is 2 datatypes for menu opt?
