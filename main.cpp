@@ -19,6 +19,10 @@ array<AttendanceCreate, attendanceMaxSize> validMahasiswa = {
     AttendanceCreate{"25.12.6654", "Alice 4"},
 };
 
+void clearConsole() {
+    system("clear");
+}
+
 // Create
 // marking new attendance
 bool AddEntry(AttendanceCreate entry) {
@@ -72,6 +76,7 @@ string GetNIMInput() {
 }
 
 void AddAttendance() {
+    clearConsole();
     cout << "DEBUG: Adding attendance" << endl;
     bool found = false;
 
@@ -119,6 +124,7 @@ void AddAttendance() {
 
 int main() {
     while (true) {
+        clearConsole();
         // why there is 2 datatypes for menu opt?
         // bcs cin sets a "\n" buffer for next getLine on add attendance functions
         // so we use string first then convert to int and remove the \n buffer
