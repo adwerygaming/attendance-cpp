@@ -147,7 +147,8 @@ int main() {
         cout << endl;
         cout << "Menu:" << endl;
         cout << "[1] Add Attendance" << endl;
-        cout << "[2] Refresh" << endl;
+        cout << "[2] Remove Attendance" << endl;
+        cout << "[3] Refresh" << endl;
         cout << "[0] Exit" << endl;
         cout << "Choose an option >> ";
         getline(cin, line);
