@@ -255,7 +255,7 @@ int main() {
         GetEntries();
         cout << endl;
         cout << "(" << attendanceCount << " mahasiswa hadir" << ")" << endl;
-
+ 
         // menu
         cout << endl;
         cout << "===== Menu =====" << endl;
