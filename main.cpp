@@ -14,24 +14,9 @@ array<AttendanceEntry, attendanceMaxSize> attendanceList;
 int attendanceCount = 0;
 
 array<AttendanceCreate, attendanceMaxSize> validMahasiswa = {
-    AttendanceCreate{"25.12.3654", "MasDepan"},
-    AttendanceCreate{"25.12.3655", "MasBelakang"},
-    AttendanceCreate{"25.12.3656", "MasKiri"},
-    AttendanceCreate{"25.12.3657", "MasKanan"},
-    AttendanceCreate{"25.12.3658", "MasTengah"},
-    AttendanceCreate{"25.12.3659", "MasAtas"},
-    AttendanceCreate{"25.12.3660", "MasBawah"},
-    AttendanceCreate{"25.12.3661", "MasLuar"},
-    AttendanceCreate{"25.12.3662", "MasDalam"},
-    AttendanceCreate{"25.12.3663", "MasDepanLagi"},
-    AttendanceCreate{"25.12.3664", "MasBelakangLagi"},
-    AttendanceCreate{"25.12.3665", "MasKiriLagi"},
-    AttendanceCreate{"25.12.3666", "MasKananLagi"},
-    AttendanceCreate{"25.12.3667", "MasTengahLagi"},
-    AttendanceCreate{"25.12.3668", "MasAtasLagi"},
-    AttendanceCreate{"25.12.3669", "MasBawahLagi"},
-    AttendanceCreate{"25.12.3670", "MasLuarLagi"},
-    AttendanceCreate{"25.12.3671", "MasDalamLagi"},
+    AttendanceCreate{"25.12.3654", "Devan Aditiya"},
+    AttendanceCreate{"25.12.3648", "Kenny Sopiyanti"},
+    AttendanceCreate{"25.12.3609", "Nur Dwi Cahyo"},
 };
 
 void clearConsole() {
@@ -97,7 +82,7 @@ AttendanceEntry RemoveEntry(int index1based) {
 
     // safety check
     if (idx < 0 || idx >= attendanceCount) {
-        return {}; // or throw, or handle error
+        return {}; // just return nothing idk lol
     }
 
     // store removed item
@@ -116,7 +101,7 @@ AttendanceEntry RemoveEntry(int index1based) {
     return removed;
 }
 
-// splitted bcs to multiple triggers in 1 same function
+// splitted bcs due to multiple triggers in 1 same function
 string GetNIMInput() {
     string nim;
     cout << "Masukkan NIM: ";
@@ -250,10 +235,10 @@ void RemoveAttendance() {
 
 int main() {
     // dummy pre-load data
-    for (int i = 0; i < validMahasiswa.size(); ++i) {
-        AttendanceCreate item = validMahasiswa[i];
-        AddEntry(item);
-    }
+    // for (int i = 0; i < validMahasiswa.size(); ++i) {
+    //     AttendanceCreate item = validMahasiswa[i];
+    //     AddEntry(item);
+    // }
 
     while (true) {
         clearConsole();
