@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <iomanip>
 #include <thread>
+#include <string>
 
 #include "./types/AttendanceTypes.h"
 using namespace std;
@@ -29,30 +30,35 @@ void sleep(int ms) {
     this_thread::sleep_for(chrono::milliseconds(ms));
 }
 
-// Create
-// marking new attendance
+// Functions
+
+// Adding Attendance Entry to the Attendance List
 bool AddEntry(AttendanceCreate entry) {
+    // Cek jika jumlah list absensi sudah penuh, jika iya maka tolak dengan true
     if (attendanceCount > attendanceMaxSize) {
         return false;
     }
 
+    // Jika entry object NIM itu ada, maka tambahkan ke list absensi.
     if (!entry.nim.empty()) {
         attendanceList[attendanceCount] = {
             entry.nim,
             entry.name,
-            time(nullptr) // returns the current Unix time in seconds since 1970.
+            time(nullptr)
         };
+
         attendanceCount++;
     } else {
+        // Print error jika objek entry tidak mempunyai NIM
         cout << "ERROR: Entry tidak mempunyai NIM." << endl;
         return false;
     }
 
+    // Berikan nilai balik (return value) true
     return true;
 }
 
-// Read
-// get all attendance on the list
+// Print all attended students from the lists.
 void GetEntries() {
     for (int i = 0; i < attendanceCount; i++) {
         AttendanceEntry entry = attendanceList[i];
@@ -64,25 +70,18 @@ void GetEntries() {
     }
 }
 
+// Get attended student entry by index
 AttendanceEntry GetEntryByIndex(int index) {
     return attendanceList[index - 1];
 }
 
-// Update
-// update existing attendance or sum like that idk
-bool UpdateEntry(AttendanceEntry entry, int index) {
-    attendanceList[index] = entry;
-    return true;
-}
-
-// Delete
-// delete existing attendance or sum like that idk
+// Remove attended student entry from the list
 AttendanceEntry RemoveEntry(int index1based) {
     int idx = index1based - 1;
 
     // safety check
     if (idx < 0 || idx >= attendanceCount) {
-        return {}; // just return nothing idk lol
+        return {};
     }
 
     // store removed item
@@ -101,7 +100,7 @@ AttendanceEntry RemoveEntry(int index1based) {
     return removed;
 }
 
-// splitted bcs due to multiple triggers in 1 same function
+// Function for taking input for inputing NIM.
 string GetNIMInput() {
     string nim;
     cout << "Masukkan NIM: ";
@@ -110,9 +109,11 @@ string GetNIMInput() {
     return nim;
 }
 
+// Sreeening
+
+// Function for adding student entry to the attendance list.
 void AddAttendance() {
     clearConsole();
-    // cout << "DEBUG: Adding attendance" << endl;
     bool found = false;
 
     string nim = GetNIMInput();
@@ -128,18 +129,15 @@ void AddAttendance() {
         return;
     }
 
+    // Looping through validMahasiswa list, to verify if the entered NIM is valid or not.
     for (int i = 0; i < validMahasiswa.size(); ++i) {
         AttendanceCreate item = validMahasiswa[i];
 
-        // if (item.name == "Pink Fish") {
-        //     cout << item.name << " telah di banned di kelas ini." << endl;
-        //     return;
-        // }
-
-        // check valid mahasigma
+        // Condition to check if entered NIM is on the valid list or not.
         if (nim == item.nim) {
-
-            // avoid duplicate entry
+            // Check if entered NIM is already on the list.
+            // Checking from index 0 to end of the list, if any entered NIM is already on the list or not.
+            // If yes, this variable will became true.
             bool alreadyExists = any_of(attendanceList.begin(), attendanceList.end(),
                 [&](const AttendanceEntry& e) {
                     return e.nim == nim;
@@ -156,6 +154,8 @@ void AddAttendance() {
 
             if (res) {
                 cout << "Berhasil menambahkan " << item.name << " ke daftar kehadiran." << endl;
+            } else {
+                cout << "Gagal menambahkan ke daftar absensi." << endl;
             }
 
             found = true;
@@ -171,6 +171,7 @@ void AddAttendance() {
     sleep(3000);
 }
 
+// Function for removing attendance.
 void RemoveAttendance() {
     clearConsole();
     if (attendanceCount == 0) {
@@ -198,7 +199,6 @@ void RemoveAttendance() {
     }
 
     opt = stoi(line);
-    // cin >> opt;
 
     AttendanceEntry check = GetEntryByIndex(opt);
 
@@ -209,7 +209,6 @@ void RemoveAttendance() {
         getline(cin, answer);
 
         while (answer.empty()) {
-            // handle empty input if newline is leftover
             getline(cin, answer);
         }
 
@@ -233,12 +232,15 @@ void RemoveAttendance() {
     sleep(3000);
 }
 
+// Fungsi inti C++
 int main() {
-    // dummy pre-load data
-    // for (int i = 0; i < validMahasiswa.size(); ++i) {
-    //     AttendanceCreate item = validMahasiswa[i];
-    //     AddEntry(item);
-    // }
+    // debug prefill attendance
+
+    for (int i = 0; attendanceCount < 3; i++) {
+        AddEntry(validMahasiswa[i]);
+    }
+    
+    // Menggunakan while loop, karena ...
 
     while (true) {
         clearConsole();
@@ -248,15 +250,17 @@ int main() {
 
         int opt;
         string line;
-        cout << "Sistem Presensi Simpel Berbasis CLI" << endl;
 
+        cout << "Sistem Presensi Simpel Berbasis CLI" << endl;
         cout << endl;
+
+        // Print daftar kehadiran saat ini
         cout << "Daftar Kehadiran: " << endl;
         GetEntries();
         cout << endl;
         cout << "(" << attendanceCount << " mahasiswa hadir" << ")" << endl;
 
-        // menu
+        // Tampilkan menu
         cout << endl;
         cout << "===== Menu =====" << endl;
         cout << "[1] Lakukan Presensi" << endl;
@@ -270,13 +274,13 @@ int main() {
         opt = stoi(line);
 
         if (opt == 1) {
+            // Opsi untuk menambahkan presensi
             AddAttendance();
         } else if (opt == 2) {
+            // Opsi untuk mengagalkan presensi
             RemoveAttendance();
-        } else if (opt == 3) {
-            // just refresh
-            // loops back this progieaming
         } else if (opt == 0) {
+            // Opsi untuk keluar dari loop (program)
             cout << "Dari sesi ini, ada " << attendanceCount << " mahasiswa yang hadir." << endl;
             break;
         }
@@ -286,4 +290,3 @@ int main() {
 
     return 0;
 }
-
