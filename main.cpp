@@ -256,7 +256,16 @@ int main() {
 
         // Print daftar kehadiran saat ini
         cout << "Daftar Kehadiran: " << endl;
-        GetEntries();
+        
+        for (int i = 0; i < attendanceCount; i++) {
+            AttendanceEntry entry = attendanceList[i];
+            tm* tm = localtime(&entry.timestamp);
+
+            sleep(30);2
+            cout << i + 1 << ")" << " | " << entry.nim << " | " << entry.name
+                << " | " << put_time(tm, "%H:%M:%S") << endl;
+        }
+
         cout << endl;
         cout << "(" << attendanceCount << " mahasiswa hadir" << ")" << endl;
 
