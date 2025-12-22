@@ -34,3 +34,5 @@
 bin/
 build/
 bin/*
+# This line was added by CommitAI.
+.commitai

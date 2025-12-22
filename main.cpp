@@ -20,6 +20,8 @@ array<AttendanceCreate, attendanceMaxSize> validMahasiswa = {
     AttendanceCreate{"25.12.3609", "Nur Dwi Cahyo"},
 };
 
+// Helper functions //
+
 void clearConsole() {
     // system("clear");
     cout << "\033[2J\033[1;1H";
@@ -30,7 +32,7 @@ void sleep(int ms) {
     this_thread::sleep_for(chrono::milliseconds(ms));
 }
 
-// Functions
+// Back-end //
 
 // Adding Attendance Entry to the Attendance List
 bool AddEntry(AttendanceCreate entry) {
@@ -48,14 +50,14 @@ bool AddEntry(AttendanceCreate entry) {
         };
 
         attendanceCount++;
+
+        // Berikan nilai balik (return value) true
+        return true;
     } else {
         // Print error jika objek entry tidak mempunyai NIM
         cout << "ERROR: Entry tidak mempunyai NIM." << endl;
         return false;
     }
-
-    // Berikan nilai balik (return value) true
-    return true;
 }
 
 // Print all attended students from the lists.
@@ -65,7 +67,7 @@ void GetEntries() {
         tm* tm = localtime(&entry.timestamp);
 
         sleep(30);
-        cout << "[" << i + 1 << "]" << " | " << entry.name << " | " << entry.nim
+        cout << i + 1 << ")" << " | " << entry.name << " | " << entry.nim
              << " | " << put_time(tm, "%H:%M:%S") << endl;
     }
 }
@@ -109,7 +111,7 @@ string GetNIMInput() {
     return nim;
 }
 
-// Sreeening
+// Front-end //
 
 // Function for adding student entry to the attendance list.
 void AddAttendance() {
@@ -124,20 +126,19 @@ void AddAttendance() {
     }
 
     // cout << "DEBUG: NIM entered: " << nim << endl;
-
     if (nim == "exit") {
         return;
     }
 
-    // Looping through validMahasiswa list, to verify if the entered NIM is valid or not.
+    // looping through validMahasiswa list, to verify if the entered NIM is valid or not.
     for (int i = 0; i < validMahasiswa.size(); ++i) {
         AttendanceCreate item = validMahasiswa[i];
 
-        // Condition to check if entered NIM is on the valid list or not.
+        // condition to check if entered NIM is on the valid list or not.
         if (nim == item.nim) {
-            // Check if entered NIM is already on the list.
-            // Checking from index 0 to end of the list, if any entered NIM is already on the list or not.
-            // If yes, this variable will became true.
+            // check if entered NIM is already on the list.
+            // checking from index 0 to end of the list, if any entered NIM is already on the list or not.
+            // if yes, this variable will became true.
             bool alreadyExists = any_of(attendanceList.begin(), attendanceList.end(),
                 [&](const AttendanceEntry& e) {
                     return e.nim == nim;
@@ -145,14 +146,14 @@ void AddAttendance() {
             );
 
             if (alreadyExists) {
-                cout << "Mahasiswa ini sudah ada di dalam daftar presensi." << endl;
+                cout << "Mahasiswa sudah ada di dalam daftar presensi. Membatalkan menambahkan ke daftar kehadiran." << endl;
                 sleep(3000);
                 return;
             }
 
             bool res = AddEntry(item);
 
-            if (res) {
+            if (res == true) {
                 cout << "Berhasil menambahkan " << item.name << " ke daftar kehadiran." << endl;
             } else {
                 cout << "Gagal menambahkan ke daftar absensi." << endl;
@@ -235,7 +236,6 @@ void RemoveAttendance() {
 // Fungsi inti C++
 int main() {
     // debug prefill attendance
-
     for (int i = 0; attendanceCount < 3; i++) {
         AddEntry(validMahasiswa[i]);
     }
