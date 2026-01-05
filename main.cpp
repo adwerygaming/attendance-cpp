@@ -235,18 +235,13 @@ void RemoveAttendance() {
 
 // Fungsi inti C++
 int main() {
-    // debug prefill attendance
-    for (int i = 0; attendanceCount < 3; i++) {
-        AddEntry(validMahasiswa[i]);
-    }
-    
-    // Menggunakan while loop, karena ...
+    // prefill attendance
+    // for (int i = 0; attendanceCount < 3; i++) {
+    //     AddEntry(validMahasiswa[i]);
+    // }
 
     while (true) {
         clearConsole();
-        // why there is 2 datatypes for menu opt?
-        // bcs cin sets a "\n" buffer for next getLine on add attendance functions
-        // so we use string first then convert to int and remove the \n buffer
 
         int opt;
         string line;
@@ -261,7 +256,7 @@ int main() {
             AttendanceEntry entry = attendanceList[i];
             tm* tm = localtime(&entry.timestamp);
 
-            sleep(30);2
+            sleep(30);
             cout << i + 1 << ")" << " | " << entry.nim << " | " << entry.name
                 << " | " << put_time(tm, "%H:%M:%S") << endl;
         }
