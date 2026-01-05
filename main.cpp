@@ -6,13 +6,26 @@
 #include <thread>
 #include <string>
 
-#include "./types/AttendanceTypes.h"
 using namespace std;
 
 // declarations
-const int attendanceMaxSize = 64;
-array<AttendanceEntry, attendanceMaxSize> attendanceList;
-int attendanceCount = 0;
+// Tipe data untuk menyimpan entry kehadiran
+struct AttendanceEntry {
+    string nim;
+    string name;
+    time_t timestamp;
+};
+
+// Tipe data untuk nenambahkan entry kehadiran
+// Tidak perlu timestamp karena akan di-generate otomatis saat penambahan entry
+struct AttendanceCreate {
+    string nim;
+    string name;
+};
+
+const int attendanceMaxSize = 64; // Maksimal ukuran daftar kehadiran
+array<AttendanceEntry, attendanceMaxSize> attendanceList; // Array untuk menyimpan daftar kehadiran
+int attendanceCount = 0; // Jumlah kehadiran saat ini
 
 array<AttendanceCreate, attendanceMaxSize> validMahasiswa = {
     AttendanceCreate{"25.12.3654", "Devan Aditiya"},
@@ -22,19 +35,21 @@ array<AttendanceCreate, attendanceMaxSize> validMahasiswa = {
 
 // Helper functions //
 
+// fungsi untuk membersihkan console
 void clearConsole() {
     // system("clear");
     cout << "\033[2J\033[1;1H";
     // cout << endl;
 }
 
+// fungsi sleep untuk delay eksekusi program
 void sleep(int ms) {
     this_thread::sleep_for(chrono::milliseconds(ms));
 }
 
 // Back-end //
 
-// Adding Attendance Entry to the Attendance List
+// Menambahkan entry ke dalam daftar kehadiran
 bool AddEntry(AttendanceCreate entry) {
     // Cek jika jumlah list absensi sudah penuh, jika iya maka tolak dengan true
     if (attendanceCount > attendanceMaxSize) {
@@ -43,12 +58,14 @@ bool AddEntry(AttendanceCreate entry) {
 
     // Jika entry object NIM itu ada, maka tambahkan ke list absensi.
     if (!entry.nim.empty()) {
+        // Tambahkan entry ke dalam array attendanceList
         attendanceList[attendanceCount] = {
             entry.nim,
             entry.name,
             time(nullptr)
         };
 
+        // Increment attendanceCount, total kehadiran ditambah 1
         attendanceCount++;
 
         // Berikan nilai balik (return value) true
@@ -60,15 +77,15 @@ bool AddEntry(AttendanceCreate entry) {
     }
 }
 
-// Print all attended students from the lists.
+// Meng-print hasil daftar kehadiran dari array attendanceList
 void GetEntries() {
+    // Print daftar kehadiran saat ini
     for (int i = 0; i < attendanceCount; i++) {
-        AttendanceEntry entry = attendanceList[i];
-        tm* tm = localtime(&entry.timestamp);
+        AttendanceEntry entry = attendanceList[i]; // ambil entry ke-i, hanya 1 entry karena berdasarkan index
+        tm* tm = localtime(&entry.timestamp); // konversi timestamp ke format waktu lokal
 
         sleep(30);
-        cout << i + 1 << ")" << " | " << entry.name << " | " << entry.nim
-             << " | " << put_time(tm, "%H:%M:%S") << endl;
+        cout << i + 1 << ")" << " | " << entry.name << " | " << entry.nim << " | " << put_time(tm, "%H:%M:%S") << endl;
     }
 }
 
