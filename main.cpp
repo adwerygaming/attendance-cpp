@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <iomanip>
 #include <thread>
+#include <chrono>
 #include <string>
 
 using namespace std;
@@ -44,7 +45,7 @@ void clearConsole() {
 
 // fungsi sleep untuk delay eksekusi program
 void sleep(int ms) {
-    this_thread::sleep_for(chrono::milliseconds(ms));
+    this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 
 // Back-end //
@@ -89,9 +90,9 @@ void GetEntries() {
     }
 }
 
-// Get attended student entry by index
+// mengambil 1 data entry berdasarkan index
 AttendanceEntry GetEntryByIndex(int index) {
-    return attendanceList[index - 1];
+    return attendanceList[index - 1]; // mengurangi 1 untuk menyesuaikan indeks array
 }
 
 // Remove attended student entry from the list
@@ -142,20 +143,21 @@ void AddAttendance() {
         nim = GetNIMInput();
     }
 
-    // cout << "DEBUG: NIM entered: " << nim << endl;
     if (nim == "exit") {
         return;
     }
 
-    // looping through validMahasiswa list, to verify if the entered NIM is valid or not.
+    // melakukan perulangan pada daftar validMahasiswa untuk memastikan
+    // apakah NIM yang dimasukkan valid atau tidak.
     for (int i = 0; i < validMahasiswa.size(); ++i) {
         AttendanceCreate item = validMahasiswa[i];
 
-        // condition to check if entered NIM is on the valid list or not.
+        // kondisi untuk mengecek apakah NIM yang dimasukkan
+        // ada di dalam daftar NIM yang valid atau tidak.
         if (nim == item.nim) {
-            // check if entered NIM is already on the list.
-            // checking from index 0 to end of the list, if any entered NIM is already on the list or not.
-            // if yes, this variable will became true.
+            // mengecek apakah NIM yang dimasukkan sudah ada di dalam daftar kehadiran.
+            // pengecekan dilakukan dari awal sampai akhir daftar.
+            // jika NIM sudah ditemukan, maka variabel ini akan bernilai true.
             bool alreadyExists = any_of(attendanceList.begin(), attendanceList.end(),
                 [&](const AttendanceEntry& e) {
                     return e.nim == nim;
