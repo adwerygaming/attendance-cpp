@@ -6,7 +6,6 @@
 #include <thread>
 #include <chrono>
 #include <string>
-#include <windows.h>
 
 using namespace std;
 
@@ -39,15 +38,15 @@ array<AttendanceCreate, attendanceMaxSize> validMahasiswa = {
 
 // fungsi untuk membersihkan console
 void clearConsole() {
-    system("clear");
-    // cout << "\033[2J\033[1;1H";
+    // system("clear");
+    cout << "\033[2J\033[1;1H";
     // cout << endl;
 }
 
 // fungsi sleep untuk delay eksekusi program
 void sleep(int ms) {
-    // this_thread::sleep_for(std::chrono::milliseconds(ms));
-    Sleep(ms)
+    this_thread::sleep_for(std::chrono::milliseconds(ms));
+    // sleep(ms)
 }
 
 // Back-end //
@@ -254,6 +253,7 @@ void RemoveAttendance() {
     sleep(3000);
 }
 
+
 // Fungsi inti C++
 int main() {
     // prefill attendance
@@ -272,16 +272,7 @@ int main() {
 
         // Print daftar kehadiran saat ini
         cout << "Daftar Kehadiran: " << endl;
-        
-        for (int i = 0; i < attendanceCount; i++) {
-            AttendanceEntry entry = attendanceList[i];
-            tm* tm = localtime(&entry.timestamp);
-
-            sleep(30);
-            cout << i + 1 << ")" << " | " << entry.nim << " | " << entry.name
-                << " | " << put_time(tm, "%H:%M:%S") << endl;
-        }
-
+        GetEntries();
         cout << endl;
         cout << "(" << attendanceCount << " mahasiswa hadir" << ")" << endl;
 

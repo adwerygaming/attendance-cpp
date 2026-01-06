@@ -113,9 +113,9 @@ void GetEntries() {
 }
 
 /**
- * user milih = 1
- * parameter index = user milih - 1
- * index yang dipakai = 0
+ * user milih = 2
+ * parameter index = 2 - 1
+ * index yang dipakai = 1
  * 
  * ARRAY attendanceList SEPERTI INI
  * [
@@ -134,32 +134,36 @@ AttendanceEntry GetEntryByIndex(int index) {
     return attendanceList[index - 1]; // mengurangi 1 untuk menyesuaikan indeks array
 }
 
-// Remove attended student entry from the list
-AttendanceEntry RemoveEntry(int index1based) {
-    int idx = index1based - 1;
+// Menghapus entry mahasiswa dari daftar kehadiran
+// TIPE DATA     NAMA FUNGSI    PARAMETER
+AttendanceEntry RemoveEntry(int index) {
+    int idx = index - 1; // mengurangi 1 untuk menyesuaikan indeks array
 
-    // safety check
+    // cek jika index tidak valid atau index di luar attendanceMaxSize
     if (idx < 0 || idx >= attendanceCount) {
         return {};
     }
 
-    // store removed item
+    // menyimpan item yang dihapus
     AttendanceEntry removed = attendanceList[idx];
 
-    // shift everything down one slot
+    // menggeser semua item setelah index ke kiri satu slot
     for (int i = idx; i < attendanceCount - 1; i++) {
         attendanceList[i] = attendanceList[i + 1];
     }
 
-    // clear last slot (important!)
+    // mengosongkan slot terakhir
     attendanceList[attendanceCount - 1] = {};
 
+    // mengurangi jumlah kehadiran, karena sudah dihapus satu entry
     attendanceCount--;
 
     return removed;
 }
 
-// Function for taking input for inputing NIM.
+// Fungsi untuk mengambil input NIM dari user
+// dipanggil di fungsi AddAttendance()
+// mengambil promt lalu mengembalikan hasil dari inputan
 string GetNIMInput() {
     string nim;
     cout << "Masukkan NIM: ";
@@ -169,19 +173,28 @@ string GetNIMInput() {
 }
 
 // Front-end //
+// Untuk menghandle interaksi user di console
 
-// Function for adding student entry to the attendance list.
+// Fungsi untuk menambahkan presensi ke dalam daftar kehadiran
+//    NAMA FUNGSI
 void AddAttendance() {
+    // memanggil fungsi untuk membersihkan layar console
     clearConsole();
+
+    // bool = true / false
     bool found = false;
 
+    // minta nim dari user
     string nim = GetNIMInput();
 
-    // keep asking for NIM if empty
+    // tetap minta nim jika inputan kosong
     while (nim.empty()) {
         nim = GetNIMInput();
     }
 
+    // nim ada value
+
+    // kondisi untuk keluar dari fungsi jika user memasukkan "exit"
     if (nim == "exit") {
         return;
     }
@@ -193,6 +206,16 @@ void AddAttendance() {
 
         // kondisi untuk mengecek apakah NIM yang dimasukkan
         // ada di dalam daftar NIM yang valid atau tidak.
+
+
+        /*
+            [
+                25.12.1654 
+                25.12.3648 
+                25.12.3609 
+            ]
+        */
+
         if (nim == item.nim) {
             // mengecek apakah NIM yang dimasukkan sudah ada di dalam daftar kehadiran.
             // pengecekan dilakukan dari awal sampai akhir daftar.
@@ -203,13 +226,23 @@ void AddAttendance() {
                 }
             );
 
-            if (alreadyExists) {
+            if (alreadyExists == true) {
                 cout << "Mahasiswa sudah ada di dalam daftar presensi. Membatalkan menambahkan ke daftar kehadiran." << endl;
                 Sleep(3000);
-                return;
+                return; // balik ke menu utama
+
             }
 
+            /*
+                item = { 
+                   nim = "25.12.3654",
+                   name = "Devan Aditiya",
+                }
+            */
+
             bool res = AddEntry(item);
+
+            // res = response
 
             if (res == true) {
                 cout << "Berhasil menambahkan " << item.name << " ke daftar kehadiran." << endl;
@@ -309,16 +342,7 @@ int main() {
 
         // Print daftar kehadiran saat ini
         cout << "Daftar Kehadiran: " << endl;
-        
-        for (int i = 0; i < attendanceCount; i++) {
-            AttendanceEntry entry = attendanceList[i];
-            tm* tm = localtime(&entry.timestamp);
-
-            Sleep(30);
-            cout << i + 1 << ")" << " | " << entry.nim << " | " << entry.name
-                << " | " << put_time(tm, "%H:%M:%S") << endl;
-        }
-
+        GetEntries();
         cout << endl;
         cout << "(" << attendanceCount << " mahasiswa hadir" << ")" << endl;
 
