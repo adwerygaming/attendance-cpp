@@ -1,5 +1,5 @@
 #include <iostream>
-#include <array>
+#include <array> // LIBRARY ARRAY
 #include <ctime>
 #include <algorithm>
 #include <iomanip>
@@ -25,37 +25,36 @@ struct AttendanceCreate {
     string name;
 };
 
-const int attendanceMaxSize = 64; // Maksimal ukuran daftar kehadiran
-array<AttendanceEntry, attendanceMaxSize> attendanceList; // Array untuk menyimpan daftar kehadiran
-int attendanceCount = 0; // Jumlah kehadiran saat ini
+const int attendanceMaxSize = 64; // Maksimal ukuran attendanceList
 
+//       TIPE DATA          MAX SIZE       NAMA VARIABEL
+array<AttendanceEntry, attendanceMaxSize> attendanceList; // Array untuk menyimpan daftar kehadiran
+int attendanceCount = 0; // Jumlah kehadiran array attendanceList
+
+//       TIPE DATA          MAX SIZE        NAMA VARIABEL
 array<AttendanceCreate, attendanceMaxSize> validMahasiswa = {
     AttendanceCreate{"25.12.3654", "Devan Aditiya"},
     AttendanceCreate{"25.12.3648", "Kenny Sopiyanti"},
     AttendanceCreate{"25.12.3609", "Nur Dwi Cahyo"},
 };
 
-// Helper functions //
+// Fungsi bantuan //
 
 // fungsi untuk membersihkan console
 void clearConsole() {
     system("clear");
-    // cout << "\033[2J\033[1;1H";
-    // cout << endl;
-}
-
-// fungsi sleep untuk delay eksekusi program
-void sleep(int ms) {
-    // this_thread::sleep_for(std::chrono::milliseconds(ms));
-    Sleep(ms)
 }
 
 // Back-end //
 
 // Menambahkan entry ke dalam daftar kehadiran
+
+// TIPE DATA  NAMA FUNGSI    PARAMETER
+//              TIPE DATA   NAMA VARIABEL
 bool AddEntry(AttendanceCreate entry) {
     // Cek jika jumlah list absensi sudah penuh, jika iya maka tolak dengan true
     if (attendanceCount > attendanceMaxSize) {
+        // tolak
         return false;
     }
 
@@ -80,19 +79,57 @@ bool AddEntry(AttendanceCreate entry) {
     }
 }
 
+/**
+ * 
+ * PRINT SATU PER SATU ENTRY DI DARI ARRAY attendanceList
+ * 
+ * ARRAY attendanceList SEPERTI INI
+ * [
+ *  0 { nim = "25.12.3654", name = "Devan Aditiya", timestamp = 1696543200 }, <---- ENTRY 1
+ *  1 { nim = "25.12.3654", name = "Devan Aditiya", timestamp = 1696543200 }, <---- ENTRY 2
+ *  2 { nim = "25.12.3654", name = "Devan Aditiya", timestamp = 1696543200 }, <---- ENTRY 3
+ * ]
+ * 
+ * INDEKS SELALU MULAI DARI 0
+ * BISA DIBILANG NOMOR URUT ARRAY
+ */
+
 // Meng-print hasil daftar kehadiran dari array attendanceList
 void GetEntries() {
     // Print daftar kehadiran saat ini
     for (int i = 0; i < attendanceCount; i++) {
         AttendanceEntry entry = attendanceList[i]; // ambil entry ke-i, hanya 1 entry karena berdasarkan index
+        /**
+         * {
+         *  nim = "25.12.3654",
+         *  name = "Devan Aditiya",
+         * }
+         */
         tm* tm = localtime(&entry.timestamp); // konversi timestamp ke format waktu lokal
 
-        sleep(30);
+        Sleep(30); 
         cout << i + 1 << ")" << " | " << entry.name << " | " << entry.nim << " | " << put_time(tm, "%H:%M:%S") << endl;
     }
 }
 
+/**
+ * user milih = 1
+ * parameter index = user milih - 1
+ * index yang dipakai = 0
+ * 
+ * ARRAY attendanceList SEPERTI INI
+ * [
+ *  0 { nim = "25.12.3654", name = "Devan Aditiya", timestamp = 1696543200 }, <---- ENTRY 1
+ *  1 { nim = "25.12.3654", name = "Devan Aditiya", timestamp = 1696543200 }, <---- ENTRY 2
+ *  2 { nim = "25.12.3654", name = "Devan Aditiya", timestamp = 1696543200 }, <---- ENTRY 3
+ * ]
+ * 
+ * INDEKS SELALU MULAI DARI 0
+ * BISA DIBILANG NOMOR URUT ARRAY
+ */
+
 // mengambil 1 data entry berdasarkan index
+// TIPE DATA     NAMA FUNGSI    PARAMETER
 AttendanceEntry GetEntryByIndex(int index) {
     return attendanceList[index - 1]; // mengurangi 1 untuk menyesuaikan indeks array
 }
@@ -168,7 +205,7 @@ void AddAttendance() {
 
             if (alreadyExists) {
                 cout << "Mahasiswa sudah ada di dalam daftar presensi. Membatalkan menambahkan ke daftar kehadiran." << endl;
-                sleep(3000);
+                Sleep(3000);
                 return;
             }
 
@@ -190,7 +227,7 @@ void AddAttendance() {
         nim = GetNIMInput();
     }
 
-    sleep(3000);
+    Sleep(3000);
 }
 
 // Function for removing attendance.
@@ -203,7 +240,7 @@ void RemoveAttendance() {
 
     cout << "Kehadiran: " << endl;
     GetEntries();
-    sleep(100);
+    Sleep(100);
     cout << endl;
     cout << "(" << attendanceCount << " mahasiswa hadir" << ")" << endl;
 
@@ -251,7 +288,7 @@ void RemoveAttendance() {
         cout << "Index tidak valid." << endl;
     }
 
-    sleep(3000);
+    Sleep(3000);
 }
 
 // Fungsi inti C++
@@ -277,7 +314,7 @@ int main() {
             AttendanceEntry entry = attendanceList[i];
             tm* tm = localtime(&entry.timestamp);
 
-            sleep(30);
+            Sleep(30);
             cout << i + 1 << ")" << " | " << entry.nim << " | " << entry.name
                 << " | " << put_time(tm, "%H:%M:%S") << endl;
         }
