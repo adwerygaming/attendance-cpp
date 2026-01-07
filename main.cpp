@@ -3,9 +3,8 @@
 #include <ctime>
 #include <algorithm>
 #include <iomanip>
-#include <thread>
-#include <chrono>
 #include <string>
+#include <windows.h>
 
 using namespace std;
 
@@ -256,11 +255,6 @@ void RemoveAttendance() {
 
 // Fungsi inti C++
 int main() {
-    // prefill attendance
-    // for (int i = 0; attendanceCount < 3; i++) {
-    //     AddEntry(validMahasiswa[i]);
-    // }
-
     while (true) {
         clearConsole();
 
