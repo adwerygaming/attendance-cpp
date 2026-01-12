@@ -246,7 +246,6 @@ void RemoveAttendance() {
     Sleep(3000);
 }
 
-
 // Fungsi inti C++
 int main() {
     while (true) {
