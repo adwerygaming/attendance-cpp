@@ -8,22 +8,24 @@
 
 using namespace std;
 
-// deklarasi
+// declarations
+// Tipe data untuk menyimpan entry kehadiran
 struct AttendanceEntry {
     string nim;
     string name;
     time_t timestamp;
 };
 
+// Tipe data untuk nenambahkan entry kehadiran
+// Tidak perlu timestamp karena akan di-generate otomatis saat penambahan entry
 struct AttendanceCreate {
     string nim;
     string name;
 };
 
-const int attendanceMaxSize = 64; 
-
-array<AttendanceEntry, attendanceMaxSize> attendanceList;
-int attendanceCount = 0;
+const int attendanceMaxSize = 64; // Maksimal ukuran daftar kehadiran
+array<AttendanceEntry, attendanceMaxSize> attendanceList; // Array untuk menyimpan daftar kehadiran
+int attendanceCount = 0; // Jumlah kehadiran saat ini
 
 array<AttendanceCreate, attendanceMaxSize> validMahasiswa = {
     AttendanceCreate{"25.12.3654", "Devan Aditiya"},
@@ -31,32 +33,40 @@ array<AttendanceCreate, attendanceMaxSize> validMahasiswa = {
     AttendanceCreate{"25.12.3609", "Nur Dwi Cahyo"},
 };
 
-// Fungsi bantuan //
+// Helper functions //
 
 // fungsi untuk membersihkan console
 void clearConsole() {
-    system("clear");
+    // system("clear");
+    cout << "\033[2J\033[1;1H";
+    // cout << endl;
 }
 
-// Backend //
+// Back-end //
 
 // Menambahkan entry ke dalam daftar kehadiran
 bool AddEntry(AttendanceCreate entry) {
+    // Cek jika jumlah list absensi sudah penuh, jika iya maka tolak dengan true
     if (attendanceCount > attendanceMaxSize) {
         return false;
     }
 
+    // Jika entry object NIM itu ada, maka tambahkan ke list absensi.
     if (!entry.nim.empty()) {
+        // Tambahkan entry ke dalam array attendanceList
         attendanceList[attendanceCount] = {
             entry.nim,
             entry.name,
             time(nullptr)
         };
 
+        // Increment attendanceCount, total kehadiran ditambah 1
         attendanceCount++;
 
+        // Berikan nilai balik (return value) true
         return true;
     } else {
+        // Print error jika objek entry tidak mempunyai NIM
         cout << "ERROR: Entry tidak mempunyai NIM." << endl;
         return false;
     }
@@ -64,34 +74,39 @@ bool AddEntry(AttendanceCreate entry) {
 
 // Meng-print hasil daftar kehadiran dari array attendanceList
 void GetEntries() {
+    // Print daftar kehadiran saat ini
     for (int i = 0; i < attendanceCount; i++) {
-        AttendanceEntry entry = attendanceList[i];
-        tm* tm = localtime(&entry.timestamp);
+        AttendanceEntry entry = attendanceList[i]; // ambil entry ke-i, hanya 1 entry karena berdasarkan index
+        tm* tm = localtime(&entry.timestamp); // konversi timestamp ke format waktu lokal
 
-        Sleep(30); 
+        Sleep(30);
         cout << i + 1 << ")" << " | " << entry.name << " | " << entry.nim << " | " << put_time(tm, "%H:%M:%S") << endl;
     }
 }
 
 // mengambil 1 data entry berdasarkan index
 AttendanceEntry GetEntryByIndex(int index) {
-    return attendanceList[index - 1];
+    return attendanceList[index - 1]; // mengurangi 1 untuk menyesuaikan indeks array
 }
 
-// Menghapus entry mahasiswa dari daftar kehadiran
-AttendanceEntry RemoveEntry(int index) {
-    int idx = index - 1;
+// Remove attended student entry from the list
+AttendanceEntry RemoveEntry(int index1based) {
+    int idx = index1based - 1;
 
+    // safety check
     if (idx < 0 || idx >= attendanceCount) {
         return {};
     }
 
+    // store removed item
     AttendanceEntry removed = attendanceList[idx];
 
+    // shift everything down one slot
     for (int i = idx; i < attendanceCount - 1; i++) {
         attendanceList[i] = attendanceList[i + 1];
     }
 
+    // clear last slot (important!)
     attendanceList[attendanceCount - 1] = {};
 
     attendanceCount--;
@@ -99,7 +114,7 @@ AttendanceEntry RemoveEntry(int index) {
     return removed;
 }
 
-// Fungsi untuk mengambil input NIM dari user
+// Function for taking input for inputing NIM.
 string GetNIMInput() {
     string nim;
     cout << "Masukkan NIM: ";
@@ -108,17 +123,16 @@ string GetNIMInput() {
     return nim;
 }
 
-// Frontend //
-// Untuk menghandle interaksi user di console
+// Front-end //
 
-// Fungsi untuk menambahkan presensi ke dalam daftar kehadiran
+// Function for adding student entry to the attendance list.
 void AddAttendance() {
     clearConsole();
-
     bool found = false;
 
     string nim = GetNIMInput();
 
+    // keep asking for NIM if empty
     while (nim.empty()) {
         nim = GetNIMInput();
     }
@@ -127,21 +141,27 @@ void AddAttendance() {
         return;
     }
 
+    // melakukan perulangan pada daftar validMahasiswa untuk memastikan
+    // apakah NIM yang dimasukkan valid atau tidak.
     for (int i = 0; i < validMahasiswa.size(); ++i) {
         AttendanceCreate item = validMahasiswa[i];
 
+        // kondisi untuk mengecek apakah NIM yang dimasukkan
+        // ada di dalam daftar NIM yang valid atau tidak.
         if (nim == item.nim) {
+            // mengecek apakah NIM yang dimasukkan sudah ada di dalam daftar kehadiran.
+            // pengecekan dilakukan dari awal sampai akhir daftar.
+            // jika NIM sudah ditemukan, maka variabel ini akan bernilai true.
             bool alreadyExists = any_of(attendanceList.begin(), attendanceList.end(),
                 [&](const AttendanceEntry& e) {
                     return e.nim == nim;
                 }
             );
 
-            if (alreadyExists == true) {
+            if (alreadyExists) {
                 cout << "Mahasiswa sudah ada di dalam daftar presensi. Membatalkan menambahkan ke daftar kehadiran." << endl;
                 Sleep(3000);
                 return;
-
             }
 
             bool res = AddEntry(item);
@@ -165,7 +185,7 @@ void AddAttendance() {
     Sleep(3000);
 }
 
-// Fungsi untuk menggagalkan presensi
+// Function for removing attendance.
 void RemoveAttendance() {
     clearConsole();
     if (attendanceCount == 0) {
@@ -226,12 +246,9 @@ void RemoveAttendance() {
     Sleep(3000);
 }
 
+
 // Fungsi inti C++
 int main() {
-    // for (int i = 0; attendanceCount < 3; i++) {
-    //     AddEntry(validMahasiswa[i]);
-    // }
-
     while (true) {
         clearConsole();
 
@@ -241,7 +258,7 @@ int main() {
         cout << "Sistem Presensi Simpel Berbasis CLI" << endl;
         cout << endl;
 
-        // Tampilkan daftar kehadiran saat ini
+        // Print daftar kehadiran saat ini
         cout << "Daftar Kehadiran: " << endl;
         GetEntries();
         cout << endl;
