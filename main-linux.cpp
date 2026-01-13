@@ -1,5 +1,5 @@
 #include <iostream>
-#include <vector>
+#include <array>
 #include <ctime>
 #include <algorithm>
 #include <iomanip>
@@ -7,7 +7,7 @@
 
 using namespace std;
 
-// declarations
+// Deklarasi
 struct AttendanceEntry {
     string nim;
     string name;
@@ -20,26 +20,28 @@ struct AttendanceCreate {
 };
 
 const int attendanceMaxSize = 64;
-vector<AttendanceEntry> attendanceList;
+array<AttendanceEntry, attendanceMaxSize> attendanceList;
+int attendanceCount = 0;
 
-vector<AttendanceCreate> validMahasiswa = {
+array<AttendanceCreate, attendanceMaxSize> validMahasiswa = {
     AttendanceCreate{"25.12.3654", "Devan Aditiya"},
     AttendanceCreate{"25.12.3648", "Kenny Sopiyanti"},
     AttendanceCreate{"25.12.3609", "Nur Dwi Cahyo"},
-}
+};
 
-// Helper functions //
-
+// Fungsi Pembantu
 void clearConsole() {
-    // system("clear");
+    system("clear");
 }
 
+// Versi ini di atur agar bisa jalan di sistem Linux, lebih tepatnya Arch Linux.
 void sleep(int ms) {
     this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 
-// Back-end //
+// Fungsi Back-end 
 
+// Fungsi 1: Menambahkan Entry Kehadiran
 bool AddEntry(AttendanceCreate entry) {
     if (attendanceCount > attendanceMaxSize) {
         return false;
@@ -61,30 +63,31 @@ bool AddEntry(AttendanceCreate entry) {
     }
 }
 
+// Fungsi 2: Mendapatkan Daftar Kehadiran
 void GetEntries() {
     for (int i = 0; i < attendanceCount; i++) {
         AttendanceEntry entry = attendanceList[i];
         tm* tm = localtime(&entry.timestamp);
 
-        sleep(30);
+        Sleep(30);
         cout << i + 1 << ")" << " | " << entry.name << " | " << entry.nim << " | " << put_time(tm, "%H:%M:%S") << endl;
     }
 }
 
+// Fungsi 3: Mendapatkan Data Entry (Mahasiswa) Berdasarkan Index Array
 AttendanceEntry GetEntryByIndex(int index) {
-    int idx = index1based - 1;
+    int idx = index - 1;
 
     if (idx < 0 || idx >= attendanceCount) {
         return {};
     }
 
-    AttendanceEntry entry = attendanceList[idx];
-
-    return entry;
+    return attendanceList[idx];
 }
 
-AttendanceEntry RemoveEntry(int index1based) {
-    int idx = index1based - 1;
+// Fungsi 4: Menghapus Entry Kehadiran Berdasarkan Index Array
+AttendanceEntry RemoveEntry(int index) {
+    int idx = index - 1;
 
     if (idx < 0 || idx >= attendanceCount) {
         return {};
@@ -103,6 +106,9 @@ AttendanceEntry RemoveEntry(int index1based) {
     return removed;
 }
 
+// Fungsi Front-end
+
+// Fungsi 5: Meminta Input NIM dari User
 string GetNIMInput() {
     string nim;
     cout << "Masukkan NIM: ";
@@ -111,8 +117,7 @@ string GetNIMInput() {
     return nim;
 }
 
-// Front-end //
-
+// Fungsi 6: Menu user untuk menambahkan kehadiran
 void AddAttendance() {
     clearConsole();
     bool found = false;
@@ -139,7 +144,7 @@ void AddAttendance() {
 
             if (alreadyExists) {
                 cout << "Mahasiswa sudah ada di dalam daftar presensi. Membatalkan menambahkan ke daftar kehadiran." << endl;
-                sleep(3000);
+                Sleep(3000);
                 return;
             }
 
@@ -148,33 +153,34 @@ void AddAttendance() {
             if (res == true) {
                 cout << "Berhasil menambahkan " << item.name << " ke daftar kehadiran." << endl;
             } else {
-                cout << "List absensi sudah penuh. " << endl;
+                cout << "Gagal menambahkan ke daftar absensi." << endl;
             }
 
             found = true;
-            sleep(3000);
             break;
         }
     }
 
     if (found == false) {
         cout << "Tidak ditemukan mahasiswa dengan NIM tersebut di database.." << endl;
-        sleep(3000);
+        nim = GetNIMInput();
     }
+
+    Sleep(3000);
 }
 
+// Fungsi 7: Menu user untuk menghapus kehadiran
 void RemoveAttendance() {
     clearConsole();
-
-    if (attendanceCount > 0) {
+    if (attendanceCount == 0) {
         cout << "Daftar kehadiran masih kosong, apa yang mau di hapus?" << endl;
-        sleep(3000);
+        Sleep(3000);
         return;
     }
 
     cout << "Kehadiran: " << endl;
     GetEntries();
-    sleep(100);
+    Sleep(100);
     cout << endl;
     cout << "(" << attendanceCount << " mahasiswa hadir" << ")" << endl;
 
@@ -222,11 +228,17 @@ void RemoveAttendance() {
         cout << "Index tidak valid." << endl;
     }
 
-    sleep(3000);
+    Sleep(3000);
 }
 
-
+// Fungsi Utama
 int main() {
+    // Quick add all mahasiswa for debugging
+    // for (int i = 0; i < validMahasiswa.size(); i++) {
+    //     AttendanceCreate entry = validMahasiswa[i];
+    //     AddEntry(entry);
+    // }
+
     while (true) {
         clearConsole();
 

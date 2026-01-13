@@ -6,6 +6,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include_directories(types)
 
-add_executable(attendance_cpp
-        types/AttendanceTypes.h
-        main.cpp)
+add_executable(attendance_cpp main.cpp)

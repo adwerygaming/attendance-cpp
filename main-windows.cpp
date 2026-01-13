@@ -82,8 +82,8 @@ AttendanceEntry GetEntryByIndex(int index) {
 }
 
 // Fungsi 4: Menghapus Entry Kehadiran Berdasarkan Index Array
-AttendanceEntry RemoveEntry(int index1based) {
-    int idx = index1based - 1;
+AttendanceEntry RemoveEntry(int index) {
+    int idx = index - 1;
 
     if (idx < 0 || idx >= attendanceCount) {
         return {};
@@ -170,6 +170,7 @@ void RemoveAttendance() {
     clearConsole();
     if (attendanceCount == 0) {
         cout << "Daftar kehadiran masih kosong, apa yang mau di hapus?" << endl;
+        Sleep(3000);
         return;
     }
 
@@ -228,6 +229,12 @@ void RemoveAttendance() {
 
 // Fungsi Utama
 int main() {
+    // Quick add all mahasiswa for debugging
+    // for (int i = 0; i < validMahasiswa.size(); i++) {
+    //     AttendanceCreate entry = validMahasiswa[i];
+    //     AddEntry(entry);
+    // }
+
     while (true) {
         clearConsole();
 
